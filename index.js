@@ -47,7 +47,7 @@ const FSStorage = (
   ): Promise<void> =>
     withCallback(callback, async () => {
       await fs.mkdir(baseFolder);
-      await fs.writeFile(pathForKey(key), value, 'base64');
+      await fs.writeFile(pathForKey(key), btoa(value), 'base64');
     });
 
   const getItem = (
@@ -57,7 +57,7 @@ const FSStorage = (
     withCallback(callback, async () => {
       if (await fs.exists(pathForKey(key))) {
         const data = await fs.readFile(pathForKey(key), 'base64');
-        return data;
+        return atob(data);
       }
     });
 
